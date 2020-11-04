@@ -1,0 +1,192 @@
+<h2 id="shell脚本">Shell脚本</h2>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// 单引号、双引号区别：单引号直接引用变量；双引号引用变量内容
+ ~  <span class="nv">foo</span><span class="o">=</span>bar
+ ~  <span class="nb">echo</span> <span class="nv">$foo</span>
+bar
+ ~  <span class="nb">echo</span> <span class="s2">"This is </span><span class="nv">$foo</span><span class="s2">"</span>
+Thi is bar
+ ~  <span class="nb">echo</span> <span class="s1">'This is $foo'</span>
+This is <span class="nv">$foo</span>
+</code></pre></div></div>
+
+<h3 id="函数">函数</h3>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mcd <span class="o">()</span> <span class="o">{</span>
+    <span class="nb">mkdir</span> <span class="nt">-p</span> <span class="s2">"</span><span class="nv">$1</span><span class="s2">"</span>
+    <span class="nb">cd</span> <span class="s2">"</span><span class="nv">$1</span><span class="s2">"</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>
+<code class="language-plaintext highlighter-rouge">$0</code> - 脚本名</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">$1</code> 到 <code class="language-plaintext highlighter-rouge">$9</code> - 脚本到参数。 <code class="language-plaintext highlighter-rouge">$1</code> 是第一个参数，依此类推。</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">$@</code> - 所有参数</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">$#</code> - 参数个数</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">$?</code> - 前一个命令到返回值(非0标识有错误发生)</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">$$</code> - 当前脚本到进程识别码</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">!!</code> - 完整到上一条命令，包括参数。常见应用：当你因为权限不足执行命令失败时，可以使用 <code class="language-plaintext highlighter-rouge">sudo !!</code>再尝试一次。</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">$_</code> - 上一条命令的最后一个参数。如果你正在使用的是交互式shell，你可以通过按下 <code class="language-plaintext highlighter-rouge">Esc</code> 之后键入 . 来获取这个值</li>
+</ul>
+
+<h3 id="条件判断">条件判断</h3>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code> ~/Desktop/Code/ShellDemo/mcd  <span class="nb">false</span> <span class="o">||</span> <span class="nb">echo</span> <span class="s2">"Oops, fail"</span>
+Oops, fail
+ ~/Desktop/Code/ShellDemo/mcd  <span class="nb">true</span> <span class="o">||</span> <span class="nb">echo</span> <span class="s2">"Will not printed"</span>
+ ~/Desktop/Code/ShellDemo/mcd  <span class="nb">true</span> <span class="o">&amp;&amp;</span> <span class="nb">echo</span> <span class="s2">"Things went well"</span>
+Things went well
+ ~/Desktop/Code/ShellDemo/mcd  <span class="nb">false</span> <span class="o">&amp;&amp;</span> <span class="nb">echo</span> <span class="s2">"Will not be printed"</span>
+ ✘  ~/Desktop/Code/ShellDemo/mcd  <span class="nb">false</span> <span class="p">;</span> <span class="nb">echo</span> <span class="s2">"This will always run"</span>
+This will always run
+</code></pre></div></div>
+
+<p>比较两个命令执行结果的区别</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 首先，分别执行 ls foo 和 ls bar命令，然后将结果分别保存到2个临时文件中，最后调用diff比较2个文件区别</span>
+diff &lt;<span class="o">(</span><span class="nb">ls </span>foo<span class="o">)</span> &lt;<span class="o">(</span><span class="nb">ls </span>bar<span class="o">)</span>
+</code></pre></div></div>
+
+<h3 id="重定向标识">重定向标识</h3>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;</span> file 重定向标准输出到文件
+1&gt; file 重定向标准输出到文件
+
+2&gt; file 重定向标准错误到文件
+
+&amp;&gt; file 重定向标准输出和标准错误到文件
+<span class="o">&gt;</span> file 2&gt;&amp;1 重定向标准输出和标准错误到文件
+
+/dev/null 空设备文件<span class="o">(</span>黑洞文件
+</code></pre></div></div>
+
+<h3 id="通配符">通配符</h3>
+
+<ul>
+  <li>使用 ? 和 * 来匹配一个或任意个字符</li>
+  <li>使用 {} 可以自动展开括号中内容</li>
+</ul>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>convert image.<span class="o">{</span>png,jpg<span class="o">}</span>
+<span class="c"># 会展开为</span>
+convert image.png image.jpg
+
+<span class="nb">cp</span> /path/to/project/<span class="o">{</span>foo,bar,baz<span class="o">}</span>.sh /newpath
+<span class="c"># 会展开为</span>
+<span class="nb">cp</span> /path/to/project/foo.sh /path/to/project/bar.sh /path/to/project/baz.sh /newpath
+
+<span class="c"># 也可以结合通配使用</span>
+<span class="nb">mv</span> <span class="k">*</span><span class="o">{</span>.py,.sh<span class="o">}</span> folder
+<span class="c"># 会移动所有 *.py 和 *.sh 文件</span>
+
+<span class="nb">mkdir </span>foo bar
+
+<span class="c"># 下面命令会创建foo/a, foo/b, ... foo/h, bar/a, bar/b, ... bar/h这些文件</span>
+<span class="nb">touch</span> <span class="o">{</span>foo,bar<span class="o">}</span>/<span class="o">{</span>a..h<span class="o">}</span>
+<span class="nb">touch </span>foo/x bar/y
+<span class="c"># 显示foo和bar文件的不同</span>
+diff &lt;<span class="o">(</span><span class="nb">ls </span>foo<span class="o">)</span> &lt;<span class="o">(</span><span class="nb">ls </span>bar<span class="o">)</span>
+<span class="c"># 输出</span>
+<span class="c"># &lt; x</span>
+<span class="c"># ---</span>
+<span class="c"># &gt; y</span>
+</code></pre></div></div>
+
+<h3 id="shell语法检查工具">Shell语法检查工具</h3>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>brew <span class="nb">install </span>shellCheck
+</code></pre></div></div>
+
+<h3 id="使用其他脚本语言">使用其他脚本语言</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#!/usr/bin/env python 
+</span><span class="kn">import</span> <span class="nn">sys</span>
+<span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="n">sys</span><span class="p">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">:]):</span>
+  	<span class="k">print</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="shell函数和脚本的不同点">shell函数和脚本的不同点</h3>
+
+<ul>
+  <li>
+    <p>脚本文件首行 “#!/usr/bin/env python”叫做shebang，可以自动从env中寻找语言执行文件进行脚本文件的执行</p>
+  </li>
+  <li>
+    <p>函数仅在定义时被加载，脚本会在每次被执行时加载。这让函数的加载比脚本略快一些，但每次修改函数定义，都要重新加载一次。</p>
+  </li>
+  <li>
+    <p>函数会在当前的shell环境中执行，脚本会在单独的进程中执行。因此，函数可以对环境变量进行更改，比如改变当前工作目录，脚本则不行。脚本需要使用 <a href="http://man7.org/linux/man-pages/man1/export.1p.html" target="_blank" rel="noopener noreferrer nofollow"><code class="language-plaintext highlighter-rouge">export</code></a> 将环境变量导出，并将值传递给环境变量。</p>
+  </li>
+  <li>
+    <p>与其他程序语言一样，函数可以提高代码模块性、代码复用性并创建清晰性的结构。shell脚本中往往也会包含它们自己的函数定义。</p>
+
+    <h3 id="shell示例可参考">shell示例可参考</h3>
+
+    <ul>
+      <li>
+<a href="https://tldr.sh/" target="_blank" rel="noopener noreferrer nofollow">TLDR pages</a>，是一个很不错的替代品，它提供了一些案例，可以帮助您快速找到正确的选项</li>
+    </ul>
+
+    <h3 id="查找文件">查找文件</h3>
+
+    <div class="language-shell highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="c"># 查找所有名称为src的文件夹</span>
+find <span class="nb">.</span> <span class="nt">-name</span> src <span class="nt">-type</span> d
+<span class="c"># 查找所有文件夹路径中包含test的python文件</span>
+find <span class="nb">.</span> <span class="nt">-path</span> <span class="s1">'**/test/**/*.py'</span> <span class="nt">-type</span> f
+<span class="c"># 查找前一天修改的所有文件</span>
+find <span class="nb">.</span> <span class="nt">-mtime</span> <span class="nt">-1</span>
+<span class="c"># 查找所有大小在500k至10M的tar.gz文件</span>
+find <span class="nb">.</span> <span class="nt">-size</span> +500k <span class="nt">-size</span> <span class="nt">-10M</span> <span class="nt">-name</span> <span class="s1">'*.tar.gz'</span>
+</code></pre></div>    </div>
+
+    <h3 id="处理查找到的文件">处理查找到的文件</h3>
+
+    <pre><code class="language-she"># Delete all files with .tmp extension
+find . -name '*.tmp' -exec rm {} \;
+# Find all PNG files and convert them to JPG
+find . -name '*.png' -exec convert {} {.}.jpg \;
+</code></pre>
+
+    <p>其他相关命令：fd可以取代find；locate维护一个数据库，每日更新，可以提高查询效率</p>
+
+    <h3 id="查找代码">查找代码</h3>
+
+    <div class="language-shell highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="c"># grep 与改进后的 grep</span>
+<span class="c"># 查找所有使用了 requests 库的文件</span>
+rg <span class="nt">-t</span> py <span class="s1">'import requests'</span>
+<span class="c"># 查找所有没有写 shebang 的文件（包含隐藏文件）</span>
+rg <span class="nt">-u</span> <span class="nt">--files-without-match</span> <span class="s2">"^#!"</span>
+<span class="c"># 查找所有的foo字符串，并打印其之后的5行</span>
+rg foo <span class="nt">-A</span> 5
+<span class="c"># 打印匹配的统计信息（匹配的行和文件的数量）</span>
+rg <span class="nt">--stats</span> PATTERN
+</code></pre></div>    </div>
+
+    <h3 id="查找shell命令">查找shell命令</h3>
+
+    <div class="language-shell highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>1. history命令
+2. 使用 Ctrl+R 命令对命令历史进行回溯
+3. Ctrl+R 还可以和 fzf 使用
+</code></pre></div>    </div>
+
+    <h3 id="文件夹导航">文件夹导航</h3>
+
+    <ul>
+      <li>使用<a href="https://github.com/clvv/fasd" target="_blank" rel="noopener noreferrer nofollow"><code class="language-plaintext highlighter-rouge">fasd</code></a>可以查找最常用和/或最近使用的文件和目录</li>
+      <li>目录结构可使用tree、broot</li>
+      <li>文件管理器可使用 nnn 或 ranger</li>
+    </ul>
+  </li>
+</ul>
+
