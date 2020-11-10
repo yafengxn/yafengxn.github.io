@@ -87,68 +87,90 @@ appending output to nohup.out
  ⚙  ~  <span class="nb">jobs</span>
 </code></pre></div></div>
 
-<pre><code class="language-SIGKILL```是一个特殊的信号，它不能被进程捕获并且它会马上结束该进程。不过这样做会有一些副作用，例如留下孤儿进程。">
-可以通过```man signal```或者```kill -t```来获取更多关于信号的信息。
+<p><code class="language-plaintext highlighter-rouge">SIGKILL</code>是一个特殊的信号，它不能被进程捕获并且它会马上结束该进程。不过这样做会有一些副作用，例如留下孤儿进程。</p>
 
-## 终端多路复用
+<p>可以通过<code class="language-plaintext highlighter-rouge">man signal</code>或者<code class="language-plaintext highlighter-rouge">kill -t</code>来获取更多关于信号的信息。</p>
 
-像 [`tmux`](http://man7.org/linux/man-pages/man1/tmux.1.html) 这类的终端多路复用器可以允许我们基于面板和标签分割出多个终端窗口，这样您便可以同时与多个 shell 会话进行交互。
+<h2 id="终端多路复用">终端多路复用</h2>
 
-不仅如此，终端多路复用使我们可以分离当前终端会话并在将来重新连接。
+<p>像 <a href="http://man7.org/linux/man-pages/man1/tmux.1.html" target="_blank" rel="noopener noreferrer nofollow"><code class="language-plaintext highlighter-rouge">tmux</code></a> 这类的终端多路复用器可以允许我们基于面板和标签分割出多个终端窗口，这样您便可以同时与多个 shell 会话进行交互。</p>
 
-这让您操作远端设备时的工作流大大改善，避免了 `nohup` 和其他类似技巧的使用。
+<p>不仅如此，终端多路复用使我们可以分离当前终端会话并在将来重新连接。</p>
 
-`tmux` 是一个高度可定制的工具，您可以使用相关快捷键创建多个标签页并在它们间导航。
+<p>这让您操作远端设备时的工作流大大改善，避免了 <code class="language-plaintext highlighter-rouge">nohup</code> 和其他类似技巧的使用。</p>
 
-`tmux` 的快捷键需要我们掌握，它们都是类似 `&lt;C-b&gt; x` 这样的组合，即需要先按下`Ctrl+b`，松开后再按下 `x`。`tmux` 中对象的继承结构如下：
+<p><code class="language-plaintext highlighter-rouge">tmux</code> 是一个高度可定制的工具，您可以使用相关快捷键创建多个标签页并在它们间导航。</p>
 
-- 会话
+<p><code class="language-plaintext highlighter-rouge">tmux</code> 的快捷键需要我们掌握，它们都是类似 <code class="language-plaintext highlighter-rouge">&lt;C-b&gt; x</code> 这样的组合，即需要先按下<code class="language-plaintext highlighter-rouge">Ctrl+b</code>，松开后再按下 <code class="language-plaintext highlighter-rouge">x</code>。<code class="language-plaintext highlighter-rouge">tmux</code> 中对象的继承结构如下：</p>
 
-   
+<ul>
+  <li>
+    <p>会话</p>
 
-  \- 每个会话都是一个独立的工作区，其中包含一个或多个窗口
+    <p>- 每个会话都是一个独立的工作区，其中包含一个或多个窗口</p>
 
-  - `tmux` 开始一个新的会话
-  - `tmux new -s NAME` 以指定名称开始一个新的会话
-  - `tmux ls` 列出当前所有会话
-  - 在 `tmux` 中输入 `&lt;C-b&gt; d` ，将当前会话分离
-  - `tmux a` 重新连接最后一个会话。您也可以通过 `-t` 来指定具体的会话
+    <ul>
+      <li>
+<code class="language-plaintext highlighter-rouge">tmux</code> 开始一个新的会话</li>
+      <li>
+<code class="language-plaintext highlighter-rouge">tmux new -s NAME</code> 以指定名称开始一个新的会话</li>
+      <li>
+<code class="language-plaintext highlighter-rouge">tmux ls</code> 列出当前所有会话</li>
+      <li>在 <code class="language-plaintext highlighter-rouge">tmux</code> 中输入 <code class="language-plaintext highlighter-rouge">&lt;C-b&gt; d</code> ，将当前会话分离</li>
+      <li>
+<code class="language-plaintext highlighter-rouge">tmux a</code> 重新连接最后一个会话。您也可以通过 <code class="language-plaintext highlighter-rouge">-t</code> 来指定具体的会话</li>
+    </ul>
+  </li>
+  <li>
+    <p>窗口</p>
 
-- 窗口
+    <p>- 相当于编辑器或是浏览器中的标签页，从视觉上将一个会话分割为多个部分</p>
 
-   
+    <ul>
+      <li>
+<code class="language-plaintext highlighter-rouge">&lt;C-b&gt; c</code> 创建一个新的窗口，使用 <code class="language-plaintext highlighter-rouge">&lt;C-d&gt;</code>关闭</li>
+      <li>
+<code class="language-plaintext highlighter-rouge">&lt;C-b&gt; N</code> 跳转到第 <em>N</em> 个窗口，注意每个窗口都是有编号的</li>
+      <li>
+<code class="language-plaintext highlighter-rouge">&lt;C-b&gt; p</code> 切换到前一个窗口</li>
+      <li>
+<code class="language-plaintext highlighter-rouge">&lt;C-b&gt; n</code> 切换到下一个窗口</li>
+      <li>
+<code class="language-plaintext highlighter-rouge">&lt;C-b&gt; ,</code> 重命名当前窗口</li>
+      <li>
+<code class="language-plaintext highlighter-rouge">&lt;C-b&gt; w</code> 列出当前所有窗口</li>
+    </ul>
+  </li>
+  <li>
+    <p>面板</p>
 
-  \- 相当于编辑器或是浏览器中的标签页，从视觉上将一个会话分割为多个部分
+    <p>- 像 vim 中的分屏一样，面板使我们可以在一个屏幕里显示多个 shell</p>
 
-  - `&lt;C-b&gt; c` 创建一个新的窗口，使用 `&lt;C-d&gt;`关闭
-  - `&lt;C-b&gt; N` 跳转到第 *N* 个窗口，注意每个窗口都是有编号的
-  - `&lt;C-b&gt; p` 切换到前一个窗口
-  - `&lt;C-b&gt; n` 切换到下一个窗口
-  - `&lt;C-b&gt; ,` 重命名当前窗口
-  - `&lt;C-b&gt; w` 列出当前所有窗口
+    <ul>
+      <li>
+<code class="language-plaintext highlighter-rouge">&lt;C-b&gt; "</code> 水平分割</li>
+      <li>
+<code class="language-plaintext highlighter-rouge">&lt;C-b&gt; %</code> 垂直分割</li>
+      <li>
+<code class="language-plaintext highlighter-rouge">&lt;C-b&gt; &lt;方向&gt;</code> 切换到指定方向的面板， 指的是键盘上的方向键方向&gt;</li>
+      <li>
+<code class="language-plaintext highlighter-rouge">&lt;C-b&gt; z</code> 切换当前面板的缩放</li>
+      <li>
+<code class="language-plaintext highlighter-rouge">&lt;C-b&gt; [</code> 开始往回卷动屏幕。您可以按下空格键来开始选择，回车键复制选中的部分</li>
+      <li>
+<code class="language-plaintext highlighter-rouge">&lt;C-b&gt; &lt;空格&gt;</code> 在不同的面板排布间切换</li>
+    </ul>
+  </li>
+</ul>
 
-- 面板
+<p>扩展阅读： <a href="https://www.hamvocke.com/blog/a-quick-and-easy-guide-to-tmux/" target="_blank" rel="noopener noreferrer nofollow">这里</a> 是一份 <code class="language-plaintext highlighter-rouge">tmux</code> 快速入门教程， <a href="http://linuxcommand.org/lc3_adv_termmux.php" target="_blank" rel="noopener noreferrer nofollow">而这一篇</a> 文章则更加详细，它包含了 <code class="language-plaintext highlighter-rouge">screen</code> 命令。您也许想要掌握 <a href="http://man7.org/linux/man-pages/man1/screen.1.html" target="_blank" rel="noopener noreferrer nofollow"><code class="language-plaintext highlighter-rouge">screen</code></a> 命令，因为在大多数 UNIX 系统中都默认安装有该程序。</p>
 
-   
+<h2 id="别名">别名</h2>
 
-  \- 像 vim 中的分屏一样，面板使我们可以在一个屏幕里显示多个 shell
+<p>bash中的别名语法如下：</p>
 
-  - `&lt;C-b&gt; "` 水平分割
-  - `&lt;C-b&gt; %` 垂直分割
-  - `&lt;C-b&gt; &lt;方向&gt;` 切换到指定方向的面板，&lt;方向&gt; 指的是键盘上的方向键
-  - `&lt;C-b&gt; z` 切换当前面板的缩放
-  - `&lt;C-b&gt; [` 开始往回卷动屏幕。您可以按下空格键来开始选择，回车键复制选中的部分
-  - `&lt;C-b&gt; &lt;空格&gt;` 在不同的面板排布间切换
-
-扩展阅读： [这里](https://www.hamvocke.com/blog/a-quick-and-easy-guide-to-tmux/) 是一份 `tmux` 快速入门教程， [而这一篇](http://linuxcommand.org/lc3_adv_termmux.php) 文章则更加详细，它包含了 `screen` 命令。您也许想要掌握 [`screen`](http://man7.org/linux/man-pages/man1/screen.1.html) 命令，因为在大多数 UNIX 系统中都默认安装有该程序。
-
-## 别名
-
-bash中的别名语法如下：
-
-```shell
-alias alias_name="command_to_alias arg1 arg2"
-</code></pre>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">alias </span><span class="nv">alias_name</span><span class="o">=</span><span class="s2">"command_to_alias arg1 arg2"</span>
+</code></pre></div></div>
 
 <p>注意， <code class="language-plaintext highlighter-rouge">=</code>两边是没有空格的，因为 <a href="http://man7.org/linux/man-pages/man1/alias.1p.html" target="_blank" rel="noopener noreferrer nofollow"><code class="language-plaintext highlighter-rouge">alias</code></a> 是一个 shell 命令，它只接受一个参数。</p>
 
