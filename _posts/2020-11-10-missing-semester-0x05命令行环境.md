@@ -39,9 +39,7 @@ I got a SIGINT, but I am not stopping
 
 ```SIGTERM```则是一个更加通用的、也更加优雅的退出限号。
 
-我们可以使用kill命令发出这个信号，它的语法是：```kill -TERM <pid>```
-
-
+我们可以使用kill命令发出这个信号，它的语法是：```kill -TERM <pid>```。
 
 #### 暂停和后台执行进程
 
