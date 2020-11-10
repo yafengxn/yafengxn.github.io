@@ -10,9 +10,9 @@
 
  </span>def handler<span class="o">(</span>signum, <span class="nb">time</span><span class="o">)</span>:
      <span class="k">if </span>signum <span class="o">==</span> signal.SIGINT:
-         print<span class="o">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">I got a SIGINT, but I am not         stopping"</span><span class="o">)</span>
+         print<span class="o">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">I got a SIGINT, but I am not stopping"</span><span class="o">)</span>
      <span class="k">else</span>:
-         print<span class="o">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Receive a signal: {}"</span><span class="nb">.</span>               format<span class="o">(</span>signum<span class="o">))</span>
+         print<span class="o">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Receive a signal: {}"</span>.format<span class="o">(</span>signum<span class="o">))</span>
 
  signal.signal<span class="o">(</span>signal.SIGINT, handler<span class="o">)</span>
  i <span class="o">=</span> 0

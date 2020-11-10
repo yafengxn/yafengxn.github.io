@@ -11,9 +11,9 @@
 
  def handler(signum, time):
      if signum == signal.SIGINT:
-         print("\nI got a SIGINT, but I am not         stopping")
+         print("\nI got a SIGINT, but I am not stopping")
      else:
-         print("\nReceive a signal: {}".               format(signum))
+         print("\nReceive a signal: {}".format(signum))
 
  signal.signal(signal.SIGINT, handler)
  i = 0
