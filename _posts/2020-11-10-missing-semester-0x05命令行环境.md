@@ -41,6 +41,8 @@ I got a SIGINT, but I am not stopping
 
 我们可以使用kill命令发出这个信号，它的语法是：```kill -TERM <pid>```
 
+
+
 #### 暂停和后台执行进程
 
 ```SIGSTOP```信号会让进程暂停，键入```Ctrl-Z```会让shell发送```SIGSTP```信号
