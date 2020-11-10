@@ -6,32 +6,31 @@
 
 <p>下面这个例子展示如何捕获信号SIGINT并忽而略他的基本操作，我们可以使用<code class="language-plaintext highlighter-rouge">SIGQUIT</code>信号来结束程序，输<code class="language-plaintext highlighter-rouge">Ctrl-\</code>即可。</p>
 
-<p>``` #!/usr/bin.env python
- import signal, time</p>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code> import signal, <span class="nb">time
 
-<p>def handler(signum, time):
-     if signum == signal.SIGINT:
-         print(“\nI got a SIGINT, but I am not         stopping”)
-     else:
-         print(“\nReceive a signal: {}”.               format(signum))</p>
+ </span>def handler<span class="o">(</span>signum, <span class="nb">time</span><span class="o">)</span>:
+     <span class="k">if </span>signum <span class="o">==</span> signal.SIGINT:
+         print<span class="o">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">I got a SIGINT, but I am not         stopping"</span><span class="o">)</span>
+     <span class="k">else</span>:
+         print<span class="o">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Receive a signal: {}"</span><span class="nb">.</span>               format<span class="o">(</span>signum<span class="o">))</span>
 
-<p>signal.signal(signal.SIGINT, handler)
- i = 0
- while True:
-         time.sleep(.1)
-         print(“\r{}”.format(i))
-         i += 1```</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-结束程序：
+ signal.signal<span class="o">(</span>signal.SIGINT, handler<span class="o">)</span>
+ i <span class="o">=</span> 0
+ <span class="k">while </span>True:
+         time.sleep<span class="o">(</span>.1<span class="o">)</span>
+         print<span class="o">(</span><span class="s2">"</span><span class="se">\r</span><span class="s2">{}"</span>.format<span class="o">(</span>i<span class="o">))</span>
+         i +<span class="o">=</span> 1
+</code></pre></div></div>
 
-```69
-^C
+<p>结束程序：</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>^C
 I got a SIGINT, but I am not stopping
 70
 71
 72
 73
-^\[1]    41119 quit       ./sigint.py
+^<span class="se">\[</span>1]    41119 quit       ./sigint.py
 </code></pre></div></div>
 
 <p>尽管<code class="language-plaintext highlighter-rouge">SIGINT</code>和<code class="language-plaintext highlighter-rouge">SIGQUIT</code>都常常用来发出和终止程序相关的请求。</p>

@@ -6,7 +6,7 @@
 
 下面这个例子展示如何捕获信号SIGINT并忽而略他的基本操作，我们可以使用```SIGQUIT```信号来结束程序，输```Ctrl-\```即可。
 
-``` #!/usr/bin.env python
+``` shell
  import signal, time
 
  def handler(signum, time):
@@ -20,12 +20,12 @@
  while True:
          time.sleep(.1)
          print("\r{}".format(i))
-         i += 1```
+         i += 1
 ```
 
 结束程序：
 
-```69
+```shell
 ^C
 I got a SIGINT, but I am not stopping
 70
