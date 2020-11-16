@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Contact
-tagline: 一个专注于iOS的普通开发者
+tagline: Stay hungry. Stay foolish.
 ref: contact
 order: 1
 ---

@@ -6,6 +6,15 @@
 # See: https://jekyllrb.com/docs/themes/#overriding-theme-defaults
 #
 layout: home
+
+# 
+# --- 
+# content
+#
+# 主页显示：
+#    ======== 头图 =======
+#    {content}
+#   Latest Posts
+#  
 ---
 
-一个专注于iOS的普通开发者

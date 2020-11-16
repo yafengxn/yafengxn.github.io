@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Now
-tagline: 
+tagline: Stay hungry. Stay foolish.
 permalink: /now.html
 ref: now
 order: 2

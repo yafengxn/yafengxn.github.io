@@ -1,7 +1,7 @@
 ---
 layout: page
 title: About
-tagline: 一个专注于iOS的普通开发者
+tagline: Stay hungry. Stay foolish.
 permalink: /about.html
 ref: about
 order: 0
@@ -10,7 +10,7 @@ order: 0
 
 
 ### 简历
-我是yafengxn，一个专注于iOS的开发者，会写一些C++，正在努力向更高阶进发，如果想要联系我，请优先使用邮件方式。
+我是yafengxn，一个普通的iOS开发者，会写一些C++，正在努力向更高阶进发，如果想要联系我，请优先使用邮件方式。
 
 
 ### 开源项目
